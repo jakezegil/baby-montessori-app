@@ -1,5 +1,5 @@
 import { Button, View } from "tamagui";
-import useRecorder from "../hooks/sound";
+import useRecorder from "../hooks/useAudioFiles";
 
 const Recorder = () => {
   const { startRecording, stopRecording } = useRecorder({fileToSave: "file-1"});

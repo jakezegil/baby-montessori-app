@@ -10,7 +10,7 @@ import ButtonGrid from "./components/ButtonGrid";
 import Recorder from "./components/Recorder";
 
 // Hooks
-import { useAudioFiles } from "./hooks/sound";
+import { useAudioFiles } from "./hooks/useAudioFiles";
 
 // Assets
 import banana from "@assets/banana-phone.mp3";

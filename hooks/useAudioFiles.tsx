@@ -1,6 +1,7 @@
 import { Audio } from "expo-av";
 import * as FileSystem from "expo-file-system";
 import { useEffect, useState } from "react";
+import { useAsyncState } from "./useAsyncStorage";
 
 /** Record saved audio files */
 const useRecorder = ({ fileToSave }: { fileToSave: string }) => {
@@ -100,7 +101,10 @@ export default useRecorder;
 
 /** Use saved audio files */
 export const useAudioFiles = () => {
-  const [audioFiles, setAudioFiles] = useState<string[]>([]);
+  const [audioFiles, setAudioFiles] = useAsyncState<string[]>(
+    "@superstore/audioFiles",
+    []
+  );
 
   useEffect(() => {
     async function getAudioFiles() {

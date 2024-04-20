@@ -1,7 +1,13 @@
 import { useState } from "react";
-import { useAudioFiles } from "./sound";
+import { useAudioFiles } from "./useAudioFiles";
+import { useAsyncState } from "./useAsyncStorage";
 
-export const buttons = ["Button 1", "Button 2", "Button 3", "Button 4"];
+export enum Button {
+    One,
+    Two,
+    Three,
+    Four
+};
 
 type LearningUnit = {
   name: string;
@@ -9,9 +15,15 @@ type LearningUnit = {
   // image: string;
 };
 
+type ButtonConfiguration {
+    [button: Button]: LearningUnit;
+}
+
 const useModifiableLearningUnits = () => {
-  const { audioFiles } = useAudioFiles();
-  const [units, setUnits] = useState<LearningUnit[]>([]);
+  const [units, setUnits] = useAsyncState<LearningUnit[]>("@superstore/learningUnits",
+    []);
+  const [_, setConfiguration] = useAsyncState<ButtonConfiguration>("@superstore/buttonConfiguration",
+    {});
 
   const addLearningUnit = (unit: LearningUnit) => {
     setUnits([...units, unit]);
@@ -25,7 +37,11 @@ const useModifiableLearningUnits = () => {
     setUnits(units.map((u) => (u.name === unit.name ? unit : u)));
   };
 
-  return { units, addLearningUnit, removeLearningUnit, updateLearningUnit };
+  const updateConfiguration = (button: Button, configuration: LearningUnit) => {
+    setConfiguration({ ...configuration, [button]: configuration });
+  }
+
+  return { units, addLearningUnit, removeLearningUnit, updateLearningUnit, setConfiguration };
 };
 
 export default useModifiableLearningUnits;
