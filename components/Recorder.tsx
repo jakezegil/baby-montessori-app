@@ -1,14 +1,32 @@
-import { Button, View } from "tamagui";
+import { Button, View, Text } from "tamagui";
 import useRecorder from "../hooks/useAudioFiles";
+import { useState } from "react";
 
-const Recorder = () => {
-  const { startRecording, stopRecording } = useRecorder({
-    fileToSave: "file-1",
+type RecordProps = {
+  fileName: string
+  saveLearningUnit: () => void
+}
+
+const Recorder = ({ fileName, saveLearningUnit }: RecordProps) => {
+  const { startRecording, stopRecording, recording, isRecording } = useRecorder({
+    fileToSave: fileName,
   });
+
+  if (!fileName) {
+    return <View>
+      <Text>Please enter a valid audio name</Text>
+    </View>
+  }
+
   return (
     <View>
-      <Button onPress={startRecording}>Start Recording</Button>
-      <Button onPress={stopRecording}>Stop Recording</Button>
+      {isRecording ?
+        <Button onPress={stopRecording}>Stop Recording</Button> :
+        <Button onPress={startRecording}>Start Recording</Button>
+      }
+      {!!recording && !isRecording &&
+        <Button onPress={saveLearningUnit}>Save Learning Unit</Button>
+      }
     </View>
   );
 };

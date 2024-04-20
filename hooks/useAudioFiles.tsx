@@ -86,7 +86,7 @@ const useRecorder = ({ fileToSave }: { fileToSave: string }) => {
         });
         await playbackObject.playAsync();
 
-        setRecording(null);
+        // setRecording(null);
         setIsRecording(false);
       }
     } catch (error) {
@@ -94,7 +94,7 @@ const useRecorder = ({ fileToSave }: { fileToSave: string }) => {
     }
   }
 
-  return { startRecording, stopRecording };
+  return { startRecording, stopRecording, recording, isRecording };
 };
 
 export default useRecorder;

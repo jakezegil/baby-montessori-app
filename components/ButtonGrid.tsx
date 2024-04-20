@@ -28,7 +28,7 @@ const Tile = ({ label, onPress, image }: IButton) => {
 
 const ButtonGrid = ({ buttons }: { buttons: IButton[] }) => {
   return (
-    <YStack gap="$6" padding="$3" minHeight="100%">
+    <YStack gap="$6" padding="$3" minHeight="60%">
       <XStack gap="$6" justifyContent="center" minHeight="45%">
         {buttons.slice(0, 2).map((button) => (
           <Tile {...button} />
