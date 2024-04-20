@@ -19,9 +19,6 @@ import favicon from "@assets/favicon.png";
 export default function App() {
   const audios = useAudioFiles();
 
-  console.log(audios.audioFiles);
-  console.log(audios.audioFiles.find((audio) => audio.includes("tile-1")));
-
   return (
     <TamaguiProvider config={themeConfig}>
       <View style={styles.container}>
@@ -43,7 +40,6 @@ export default function App() {
                   audio.includes("tile-1")
                 )!;
 
-                console.log(uri);
                 FileSystem.getContentUriAsync(uri).then(async (cUri) => {
                   const { sound } = await Audio.Sound.createAsync({
                     uri: cUri,

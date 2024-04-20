@@ -2,7 +2,8 @@ import { Audio } from "expo-av";
 import * as FileSystem from "expo-file-system";
 import { useEffect, useState } from "react";
 
-const useRecorder = () => {
+/** Record saved audio files */
+const useRecorder = ({ fileToSave }: { fileToSave: string }) => {
   const [permissioned, setPermissioned] = useState(false);
   const [recording, setRecording] = useState<Audio.Recording | null>(null);
   const [isRecording, setIsRecording] = useState(false);
@@ -22,7 +23,6 @@ const useRecorder = () => {
       if (!permissioned) {
         await Audio.requestPermissionsAsync()
           .then((permission) => {
-            console.log("Permission Granted: " + permission.granted);
             setPermissioned(permission.granted);
           })
           .catch((error) => {
@@ -46,7 +46,6 @@ const useRecorder = () => {
         });
 
         const recording = new Audio.Recording();
-        console.log("Starting Recording");
         await recording.prepareToRecordAsync(
           Audio.RecordingOptionsPresets.HIGH_QUALITY
         );
@@ -63,12 +62,11 @@ const useRecorder = () => {
   async function stopRecording() {
     try {
       if (isRecording && recording) {
-        console.log("Stopping Recording");
         await recording.stopAndUnloadAsync();
         const recordingUri = recording.getURI()!;
 
         // Create a file name for the recording
-        const fileName = `tile-1.caf`;
+        const fileName = `${fileToSave}.caf`;
 
         // Move the recording to the new directory with the new file name
         await FileSystem.makeDirectoryAsync(
@@ -100,6 +98,7 @@ const useRecorder = () => {
 
 export default useRecorder;
 
+/** Use saved audio files */
 export const useAudioFiles = () => {
   const [audioFiles, setAudioFiles] = useState<string[]>([]);
 
@@ -108,7 +107,9 @@ export const useAudioFiles = () => {
       const files = await FileSystem.readDirectoryAsync(
         FileSystem.documentDirectory + "recordings/"
       );
-      setAudioFiles(files.map((file) => FileSystem.documentDirectory + "recordings/" + file));
+      setAudioFiles(
+        files.map((file) => FileSystem.documentDirectory + "recordings/" + file)
+      );
     }
 
     getAudioFiles();
