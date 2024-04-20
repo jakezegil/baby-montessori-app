@@ -15,9 +15,40 @@ import { useAudioFiles } from "./hooks/useAudioFiles";
 // Assets
 import banana from "@assets/banana-phone.mp3";
 import favicon from "@assets/favicon.png";
+import { useAsyncState } from "./hooks/useAsyncStorage";
+import { useEffect } from "react";
+
+const useButton1 = () => {
+  const [value, setValue] = useAsyncState("button", "oneoneone");
+
+  return [value, setValue] as const;
+};
+
+const useButton2 = () => {
+  const [value, setValue] = useAsyncState("button", "twotwotwo");
+
+  return [value, setValue] as const;
+};
 
 export default function App() {
   const audios = useAudioFiles();
+
+  const [button1, setButton1] = useButton1();
+  const [button2, setButton2] = useButton2();
+  console.log("non 1: ", button1);
+  console.log("non 2: ", button2);
+
+
+  useEffect(() => {
+    console.log("Button 1: ", button1);
+    console.log("Button 2: ", button2);
+    setButton1("oneoneone");
+    console.log("Button 1: ", button1);
+    console.log("Button 2: ", button2);
+    setButton2("twotwotwo");
+    console.log("Button 1: ", button1);
+    console.log("Button 2: ", button2);
+  }, []);
 
   return (
     <TamaguiProvider config={themeConfig}>
@@ -63,9 +94,6 @@ export default function App() {
           ]}
         />
         <StatusBar style="auto" />
-      </View>
-      <View>
-        <Recorder />
       </View>
     </TamaguiProvider>
   );

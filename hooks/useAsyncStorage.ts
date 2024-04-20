@@ -44,7 +44,7 @@ export const useAsyncState = <T>(key: string, initialValue: T) => {
 
   useEffect(() => {
     getItem();
-  }, []);
+  }, [storedValue]);
 
   return [storedValue, setItem, removeItem] as const;
 };
