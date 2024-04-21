@@ -69,11 +69,19 @@ const useRecorder = ({ fileToSave }: { fileToSave: string }) => {
         // Create a file name for the recording
         const fileName = `${fileToSave}.caf`;
 
+        const directoryExists = await FileSystem.getInfoAsync(
+          FileSystem.documentDirectory + "recordings/"
+        ).then(async (res) => {
+          if (res.exists === false) {
+            // Create if not exists
+            await FileSystem.makeDirectoryAsync(
+              FileSystem.documentDirectory + "recordings/",
+              { intermediates: true }
+            );
+          }
+        });
+
         // Move the recording to the new directory with the new file name
-        await FileSystem.makeDirectoryAsync(
-          FileSystem.documentDirectory + "recordings/",
-          { intermediates: true }
-        );
         await FileSystem.moveAsync({
           from: recordingUri,
           to: FileSystem.documentDirectory + "recordings/" + `${fileName}`,
@@ -90,6 +98,7 @@ const useRecorder = ({ fileToSave }: { fileToSave: string }) => {
         setIsRecording(false);
       }
     } catch (error) {
+      setIsRecording(false);
       console.error("Failed to stop recording", error);
     }
   }
@@ -114,6 +123,7 @@ export const useAudioFiles = () => {
       setAudioFiles(
         files.map((file) => FileSystem.documentDirectory + "recordings/" + file)
       );
+      console.log("FILES: ", files);
     }
 
     getAudioFiles();

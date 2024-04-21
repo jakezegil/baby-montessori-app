@@ -1,6 +1,10 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
 
+const arrayIsEqual = (a: any, b: any) => {
+  return JSON.stringify(a) === JSON.stringify(b);
+}
+
 const useAsyncStorage = <T>(key: string, initialValue: T) => {
   const [storedValue, setStoredValue] = useState<T>(initialValue);
 
@@ -25,8 +29,9 @@ const useAsyncStorage = <T>(key: string, initialValue: T) => {
   const getItem = async () => {
     try {
       const value = await AsyncStorage.getItem(key);
-      if (value !== null) {
-        setStoredValue(JSON.parse(value));
+      const parsedValue = value && JSON.parse(value);
+      if (parsedValue && !arrayIsEqual(parsedValue, storedValue)) {
+        setStoredValue(parsedValue);
       }
     } catch (error) {
       console.error(error);
@@ -45,6 +50,7 @@ export const useAsyncState = <T>(key: string, initialValue: T) => {
   useEffect(() => {
     getItem();
   }, [storedValue]);
+
 
   return [storedValue, setItem, removeItem] as const;
 };

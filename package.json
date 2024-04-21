@@ -9,20 +9,22 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "1.21.0",
     "@tamagui/config": "^1.94.3",
     "babel-plugin-module-resolver": "^5.0.0",
     "expo": "~50.0.14",
     "expo-av": "^13.10.5",
+    "expo-file-system": "~16.0.8",
     "expo-status-bar": "~1.11.1",
+    "lodash": "^4.17.21",
     "react": "18.2.0",
     "react-native": "0.73.6",
     "react-native-sound": "^0.11.2",
-    "tamagui": "^1.94.3",
-    "expo-file-system": "~16.0.8",
-    "@react-native-async-storage/async-storage": "1.21.0"
+    "tamagui": "^1.94.3"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
+    "@types/lodash": "^4.17.0",
     "@types/react": "~18.2.45",
     "typescript": "^5.1.3"
   },
