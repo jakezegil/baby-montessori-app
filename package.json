@@ -11,6 +11,7 @@
   "dependencies": {
     "@react-native-async-storage/async-storage": "1.21.0",
     "@tamagui/config": "^1.94.3",
+    "@tamagui/lucide-icons": "^1.94.5",
     "babel-plugin-module-resolver": "^5.0.0",
     "expo": "~50.0.14",
     "expo-av": "^13.10.5",
@@ -20,6 +21,7 @@
     "react": "18.2.0",
     "react-native": "0.73.6",
     "react-native-sound": "^0.11.2",
+    "react-native-svg": "^15.1.0",
     "tamagui": "^1.94.3"
   },
   "devDependencies": {

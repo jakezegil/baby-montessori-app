@@ -8,6 +8,15 @@ import * as FileSystem from "expo-file-system";
 import { Audio } from "expo-av";
 import PositionSelector from "../components/PositionSelector";
 import ButtonGridWithUnits from "../components/ButtonGrid";
+import { tokens } from "@tamagui/config/v3";
+import { XCircle } from "@tamagui/lucide-icons";
+
+const beautifulRow = {
+  padding: 12,
+  backgroundColor: tokens.color.gray3Light.val,
+  borderRadius: 12,
+  margin: 6,
+};
 
 type UnitListItemProps = {
   u: LearningUnit;
@@ -25,13 +34,14 @@ const UnitListItem = ({
   configuration,
 }: UnitListItemProps) => {
   return (
-    <XStack>
+    <XStack style={beautifulRow}>
       <PositionSelector
         unit={u}
         updateConfiguration={updateConfiguration}
         configuration={configuration}
       />
       <Button
+        style={{ flex: 1, backgroundColor: "transparent" }}
         onPress={() => {
           const uri = `${FileSystem.documentDirectory}recordings/${u.audioFile}.caf`;
 
@@ -48,12 +58,14 @@ const UnitListItem = ({
         <Text style={{ textAlign: "center" }}>{u.emoji}</Text>
       </Button>
       <Button
+        backgroundColor="transparent"
         onPress={() => {
           removeLearningUnit(u);
         }}
-      >
-        <Text style={{ textAlign: "center", color: "red" }}>X</Text>
-      </Button>
+        color={tokens.color.red8Light.val}
+        icon={XCircle}
+        scaleIcon={1.5}
+      />
     </XStack>
   );
 };
@@ -88,11 +100,11 @@ export default function ParentView({ exit }: { exit: () => void }) {
       {
         // First YStack is the list of stuff
       }
-      <YStack style={{ padding: 64 }}>
+      <YStack style={{ padding: 64, width: "40%" }}>
         <Button onPress={exit}>
           <Text>To Baby View</Text>
         </Button>
-        <Text style={{ fontSize: 40 }}>Add learning units</Text>
+        <Text style={{ fontSize: 40, alignSelf: "center" }}>Add Words</Text>
         <Text style={{ textAlign: "center" }}>Audio Name:</Text>
         <Input value={audioName} onChangeText={(t) => setAudioName(t)} />
         {audioName && audioNameAlreadyExists && (
@@ -114,12 +126,12 @@ export default function ParentView({ exit }: { exit: () => void }) {
             setEmoji("");
           }}
         />
-        <Text style={{ paddingTop: 40, fontSize: 30 }}>Learning units</Text>
+        <Text style={{ paddingTop: 40, fontSize: 30 }}>Words</Text>
         <Input
           placeholder="What are you looking for?"
           onChangeText={(t) => setSearch(t)}
         />
-        <ScrollView>
+        <ScrollView maxHeight="40%">
           {/** Search input */}
           {units
             .filter((u) => u.name.includes(search))
@@ -137,7 +149,7 @@ export default function ParentView({ exit }: { exit: () => void }) {
         // Second YStack is the grid of buttons
       }
       <YStack style={{ padding: 12, maxWidth: "50%" }}>
-        <Text style={{ fontSize: 40 }}>Button Grid</Text>
+        <Text style={{ fontSize: 40, alignSelf: "center" }}>Button Grid</Text>
         <ButtonGridWithUnits key={JSON.stringify(configuration)} />
       </YStack>
     </XStack>

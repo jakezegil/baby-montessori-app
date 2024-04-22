@@ -33,13 +33,14 @@ const Tile = ({ label, onPress, image, index }: IButton) => {
     <Button
       alignSelf="center"
       size="$12"
+      padding="$1"
       style={{ width: "45%", height: "90%" }}
       backgroundColor={indexToColor(index)}
       onPress={onPress}
     >
       <YStack gap="$2" justifyContent="center">
-        <Text>{label}</Text>
-        <Text>{image}</Text>
+        <Text fontSize="$10">{label}</Text>
+        <Text alignSelf="center" fontSize={80}>{image}</Text>
       </YStack>
     </Button>
   );

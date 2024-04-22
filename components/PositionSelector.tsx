@@ -31,8 +31,8 @@ const PositionSelector = ({ unit, configuration, updateConfiguration }: Position
 
   return (
     <View>
-      <Button onPress={() => setExpanded((e) => !e)}>
-        {!expanded && position ? `${+position + 1}` : "[]"}
+      <Button backgroundColor="transparent" onPress={() => setExpanded((e) => !e)}>
+        {!expanded && position ? `${+position + 1}` : "N/A"}
       </Button>
       {expanded && (
         <Modal>
